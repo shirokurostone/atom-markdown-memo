@@ -2,8 +2,12 @@
   "context-menu": {
     "atom-text-editor": [
       {
-        "label": "Toggle atom-markdown-memo",
-        "command": "atom-markdown-memo:toggle"
+        "label": "New Markdown Memo",
+        "command": "atom-markdown-memo:newFile"
+      },
+      {
+        "label": "Save Markdown Memo",
+        "command": "atom-markdown-memo:saveFile"
       }
     ]
   },
@@ -12,11 +16,15 @@
       "label": "Packages",
       "submenu": [
         {
-          "label": "atom-markdown-memo",
+          "label": "Markdown Memo",
           "submenu": [
             {
-              "label": "Toggle",
-              "command": "atom-markdown-memo:toggle"
+              "label": "New Markdown Memo",
+              "command": "atom-markdown-memo:newFile"
+            },
+            {
+              "label": "Save Markdown Memo",
+              "command": "atom-markdown-memo:saveFile"
             }
           ]
         }

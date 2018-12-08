@@ -1,5 +1,6 @@
 {
   "atom-workspace": {
-    "ctrl-alt-o": "atom-markdown-memo:toggle"
+    "cmd-alt-n": "atom-markdown-memo:newFile",
+    "cmd-alt-s": "atom-markdown-memo:saveFile"
   }
 }

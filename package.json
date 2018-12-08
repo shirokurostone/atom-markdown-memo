@@ -6,9 +6,9 @@
   "keywords": [
   ],
   "activationCommands": {
-    "atom-workspace": "atom-markdown-memo:toggle"
+    "atom-workspace": ["atom-markdown-memo:newFile", "atom-markdown-memo:saveFile"]
   },
-  "repository": "https://github.com/atom/atom-markdown-memo",
+  "repository": "https://github.com/shirokurostone/atom-markdown-memo",
   "license": "MIT",
   "engines": {
     "atom": ">=1.0.0 <2.0.0"
