@@ -2,11 +2,6 @@
 
 import AtomMarkdownMemo from '../lib/atom-markdown-memo';
 
-// Use the command `window:run-package-specs` (cmd-alt-ctrl-p) to run specs.
-//
-// To run a specific `it` or `describe` block add an `f` to the front (e.g. `fit`
-// or `fdescribe`). Remove the `f` to unfocus the block.
-
 describe('AtomMarkdownMemo', () => {
   let workspaceElement, activationPromise;
 
@@ -15,59 +10,50 @@ describe('AtomMarkdownMemo', () => {
     activationPromise = atom.packages.activatePackage('atom-markdown-memo');
   });
 
-  describe('when the atom-markdown-memo:toggle event is triggered', () => {
-    it('hides and shows the modal panel', () => {
-      // Before the activation event the view is not on the DOM, and no panel
-      // has been created
-      expect(workspaceElement.querySelector('.atom-markdown-memo')).not.toExist();
-
-      // This is an activation event, triggering it will cause the package to be
-      // activated.
-      atom.commands.dispatch(workspaceElement, 'atom-markdown-memo:toggle');
-
-      waitsForPromise(() => {
-        return activationPromise;
-      });
-
-      runs(() => {
-        expect(workspaceElement.querySelector('.atom-markdown-memo')).toExist();
-
-        let atomMarkdownMemoElement = workspaceElement.querySelector('.atom-markdown-memo');
-        expect(atomMarkdownMemoElement).toExist();
-
-        let atomMarkdownMemoPanel = atom.workspace.panelForItem(atomMarkdownMemoElement);
-        expect(atomMarkdownMemoPanel.isVisible()).toBe(true);
-        atom.commands.dispatch(workspaceElement, 'atom-markdown-memo:toggle');
-        expect(atomMarkdownMemoPanel.isVisible()).toBe(false);
-      });
+  describe('tests for methods', () => {
+    it('formatFileName', () => {
+      const date = new Date(2006, 1-1, 2, 15, 4, 5);
+      expect(AtomMarkdownMemo.formatFileName('untitled', date)).toEqual('20060102_150405_untitled.md');
     });
 
-    it('hides and shows the view', () => {
-      // This test shows you an integration test testing at the view level.
+    it('formatTimestamp', () => {
+      const date = new Date(2006, 1-1, 2, 15, 4, 5);
+      expect(AtomMarkdownMemo.formatTimestamp(date)).toEqual('2006/01/02 15:04:05');
+    });
 
-      // Attaching the workspaceElement to the DOM is required to allow the
-      // `toBeVisible()` matchers to work. Anything testing visibility or focus
-      // requires that the workspaceElement is on the DOM. Tests that attach the
-      // workspaceElement to the DOM are generally slower than those off DOM.
-      jasmine.attachToDOM(workspaceElement);
+    it('getDirectory', () => {
+      atom.config.set("atom-markdown-memo.draftDirectoryPath", "/tmp/draft/%Y-%m-%d_%H-%M-%S-%%/");
+      atom.config.set("atom-markdown-memo.entryDirectoryPath", "/tmp/entry/%Y-%m-%d_%H-%M-%S-%%/");
+      const date = new Date(2006, 1-1, 2, 15, 4, 5);
 
-      expect(workspaceElement.querySelector('.atom-markdown-memo')).not.toExist();
+      expect(AtomMarkdownMemo.getDirectory(true, date)).toEqual("/tmp/draft/2006-01-02_15-04-05-%/");
+      expect(AtomMarkdownMemo.getDirectory(false, date)).toEqual("/tmp/entry/2006-01-02_15-04-05-%/");
+    });
 
-      // This is an activation event, triggering it causes the package to be
-      // activated.
-      atom.commands.dispatch(workspaceElement, 'atom-markdown-memo:toggle');
-
-      waitsForPromise(() => {
-        return activationPromise;
-      });
-
-      runs(() => {
-        // Now we can test for view visibility
-        let atomMarkdownMemoElement = workspaceElement.querySelector('.atom-markdown-memo');
-        expect(atomMarkdownMemoElement).toBeVisible();
-        atom.commands.dispatch(workspaceElement, 'atom-markdown-memo:toggle');
-        expect(atomMarkdownMemoElement).not.toBeVisible();
-      });
+    it ('parseText', ()=>{
+      expect(AtomMarkdownMemo.parseText("")).toEqual(null);
+      expect(AtomMarkdownMemo.parseText("---\n")).toEqual(null);
+      expect(AtomMarkdownMemo.parseText("---\n\n---\n")).toEqual({});
+      expect(AtomMarkdownMemo.parseText("---\nkey: value\n---\n")).toEqual({key:"value"});
+      expect(AtomMarkdownMemo.parseText("---\nkey: value1: value2\n---\n")).toEqual({key:"value1: value2"});
+      expect(AtomMarkdownMemo.parseText("---\nkey\n---\n")).toEqual({});
+      expect(AtomMarkdownMemo.parseText(
+        "---\n"
+        + "key1: value1\n"
+        + "---\n"
+        + "key2: value3\n"
+        + "---\n"
+        + "key3: value3\n"
+        + "---\n")).toEqual({key1:"value1"});
+      expect(AtomMarkdownMemo.parseText(
+        "---\n"
+        + "title: untitled\n"
+        + "created: 2006-01-02 15:04:05\n"
+        + "updated: 2011-06-07 08:09:10\n"
+        + "draft: false\n"
+        + "---\n")).toEqual(
+          {title:"untitled", created:"2006-01-02 15:04:05", updated:"2011-06-07 08:09:10", draft: "false"}
+        );
     });
   });
 });
