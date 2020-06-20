@@ -1,14 +1,6 @@
 {
   "context-menu": {
     "atom-text-editor": [
-      {
-        "label": "New Markdown Memo",
-        "command": "atom-markdown-memo:newFile"
-      },
-      {
-        "label": "Save Markdown Memo",
-        "command": "atom-markdown-memo:saveFile"
-      }
     ]
   },
   "menu": [
