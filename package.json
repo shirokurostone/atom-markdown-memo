@@ -6,7 +6,11 @@
   "keywords": [
   ],
   "activationCommands": {
-    "atom-workspace": ["atom-markdown-memo:newFile", "atom-markdown-memo:saveFile"]
+    "atom-workspace": [
+      "atom-markdown-memo:newFile",
+      "atom-markdown-memo:saveFile",
+      "atom-markdown-memo:recordDailyMemo"
+    ]
   },
   "repository": "https://github.com/shirokurostone/atom-markdown-memo",
   "license": "MIT",

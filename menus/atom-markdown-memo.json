@@ -25,6 +25,10 @@
             {
               "label": "Save Markdown Memo",
               "command": "atom-markdown-memo:saveFile"
+            },
+            {
+              "label": "Add Daily Memo",
+              "command": "atom-markdown-memo:recordDailyMemo"
             }
           ]
         }

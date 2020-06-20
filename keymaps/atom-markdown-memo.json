@@ -1,6 +1,7 @@
 {
   "atom-workspace": {
     "cmd-alt-n": "atom-markdown-memo:newFile",
-    "cmd-alt-s": "atom-markdown-memo:saveFile"
+    "cmd-alt-s": "atom-markdown-memo:saveFile",
+    "cmd-alt-r": "atom-markdown-memo:recordDailyMemo"
   }
 }
